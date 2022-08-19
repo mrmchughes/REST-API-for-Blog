@@ -4,6 +4,16 @@ const path = require("path");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+
+require("./passport");
+const passportJWT = require("passport-jwt");
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
+
+//const userController = require("./controllers/userController");
+
+//app.use("/userController");
+
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const bcrypt = require("bcryptjs");
@@ -14,7 +24,7 @@ dotenv.config();
 
 const User = require("./models/user");
 
-const indexRouter = require("./routes/index");
+const indexRouter = require("./routes/api");
 
 const app = express();
 
@@ -63,6 +73,24 @@ passport.use(
       });
     });
   })
+);
+
+passport.use(
+  new JWTStrategy(
+    {
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      secretOrKey: "your_jwt_secret",
+    },
+    function (jwtPayload, cb) {
+      return UserModel.findOneById(jwtPayload.id)
+        .then((user) => {
+          return cb(null, user);
+        })
+        .catch((err) => {
+          return cb(err);
+        });
+    }
+  )
 );
 
 passport.serializeUser(function (user, done) {

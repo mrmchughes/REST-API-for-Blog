@@ -1,14 +1,31 @@
 const { body, validationResult } = require("express-validator");
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
-// Display user create form on GET.
-exports.create_user_get = function (req, res) {
-  res.render("sign-up-form");
+exports.login = function (req, res, next) {
+  passport.authenticate("local", { session: false }, (err, user, info) => {
+    if (err || !user) {
+      return res.status(400).json({
+        message: "Something went wrong",
+        user: user,
+      });
+    }
+
+    req.login(user, { session: false }, (err) => {
+      if (err) {
+        res.send(err);
+      }
+
+      const token = jwt.sign(user, "your_jwt_secret");
+      return res.json({ user, token });
+    });
+  })(req, res);
 };
 
 // Handle user create on POST.
-exports.create_user_post = [
+exports.signup = [
   // Validate and sanitize fields.
   body("username")
     .trim()
@@ -57,3 +74,20 @@ exports.create_user_post = [
     });
   },
 ];
+
+exports.logout = function (req, res, next) {};
+
+// Creates a new blog post
+// POST /posts
+
+// Fetch a single blog post
+// GET /posts/:postid
+
+// Update a single blog post
+// PUT /posts/:postid
+
+// Delete a single blog post
+// DELETE /posts/:postid
+
+// USE THE FOLLOWING FORMAT FOR CONTROLLER FUNCTIONS
+//exports.{CREATE / READ / UPDATE / DELETE} followed by the name of the affected model
