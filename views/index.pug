@@ -3,3 +3,9 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  div()
+      each post in posts 
+        div.form-group(class="postBox")
+          p #{post.title} #{post.user} #{post.timestamp}
+          p #{post.message}
+        

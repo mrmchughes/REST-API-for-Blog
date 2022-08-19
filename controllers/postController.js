@@ -30,21 +30,17 @@ exports.create_post = function (req, res, next) {
   });
 };
 
-exports.get_post = function (req, res, next) {};
+exports.get_post = function (req, res, next) {
+  res.render("index", {
+    title: req.params.postid,
+  });
+};
 
 exports.get_posts = function (req, res, next) {
-  Post.find({}, "title user timestamp message")
-    .sort({ timestamp: 1 })
-    .exec(function (err, list_posts) {
-      if (err) {
-        return next(err);
-      }
-      res.render("index", {
-        title: "Blog API but the routes are RESTFUL",
-        user: req.user,
-        posts: list_posts,
-      });
-    });
+  res.render("index", {
+    title: "get_posts worked",
+    user: req.user,
+  });
 };
 
 exports.update_post = function (req, res, next) {};
