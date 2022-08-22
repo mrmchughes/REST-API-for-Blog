@@ -4,6 +4,7 @@ const path = require("path");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const bodyParser = require("body-parser");
 
 require("./passport");
 const passportJWT = require("passport-jwt");
@@ -44,6 +45,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(compression());
+app.use(bodyParser.json());
 app.use(helmet());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));

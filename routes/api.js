@@ -37,7 +37,7 @@ router.post("/signup", userController.signup);
 // Post ROUTES
 router.get("/posts", postController.get_posts);
 
-router.get("/posts/:postid", postController.get_post);
+router.get("/posts/:postId", postController.get_post);
 
 router.post("/posts", postController.create_post);
 

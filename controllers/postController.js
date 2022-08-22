@@ -1,3 +1,5 @@
+const { body } = require("express-validator");
+const { restart } = require("nodemon");
 const Post = require("../models/post");
 
 // Display post create form on GET.
@@ -7,6 +9,17 @@ const Post = require("../models/post");
 
 // Handle post create on POST.
 exports.create_post = function (req, res, next) {
+  body("title")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Title must be specified.");
+  body("message")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Post message must be specified.");
+
   let currentDate = new Date();
   let time =
     currentDate.getHours() +
@@ -16,7 +29,7 @@ exports.create_post = function (req, res, next) {
     currentDate.getSeconds();
   let organizedDate = currentDate.toLocaleDateString();
 
-  const post = new POST({
+  const post = new Post({
     isPublished: false,
     title: req.body.title,
     user: req.user.username,
@@ -30,20 +43,24 @@ exports.create_post = function (req, res, next) {
   });
 };
 
-exports.get_post = function (req, res, next) {
-  res.render("index", {
-    title: req.params.postid,
-  });
+exports.get_post = function (req, res) {
+  return res.send(`GET HTTP method on post/${req.params.postId} resource`);
 };
 
-exports.get_posts = function (req, res, next) {
-  res.render("index", {
-    title: "get_posts worked",
-    user: req.user,
-  });
+exports.get_posts = function (req, res) {
+  const posts = [];
+  res.json(posts);
 };
 
-exports.update_post = function (req, res, next) {};
+exports.update_post = function (req, res, next) {
+  Post.findByIdAndUpdate(req.body.postid, function updatePost(err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.redirect("/");
+  });
+};
 
 // Handle post delete on POST.
 exports.delete_post = function (req, res, next) {

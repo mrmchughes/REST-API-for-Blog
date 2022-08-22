@@ -2,10 +2,11 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
-  div()
+  p This is the index page
+    div(class="messagesDiv")
       each post in posts 
         div.form-group(class="postBox")
-          p #{post.title} #{post.user} #{post.timestamp}
+          p #{post.title}
           p #{post.message}
-        
+          p #{post.user}
+          p #{post.timestamp}  
