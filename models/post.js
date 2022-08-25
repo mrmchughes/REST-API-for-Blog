@@ -8,6 +8,7 @@ let PostSchema = new Schema({
   user: { type: String, required: true },
   timestamp: { type: String, required: true },
   message: { type: String, required: true },
+  comments: [{}],
 });
 
 // Virtual for post's URL

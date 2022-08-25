@@ -1,6 +1,7 @@
 const { body } = require("express-validator");
 const { restart } = require("nodemon");
 const Post = require("../models/post");
+//const Comment = require("../models/comment");
 const async = require("async");
 
 // Display post create form on GET.
@@ -30,19 +31,13 @@ exports.create_post = function (req, res, next) {
     currentDate.getSeconds();
   let organizedDate = currentDate.toLocaleDateString();
 
-  const testPost = {
-    title: "Test Title 3",
-    user: "Test User 3",
-    timestamp: "8/24/2022 10:50:52",
-    message: "Test Message 3",
-  };
-
   const post = new Post({
     isPublished: false,
-    title: testPost.title,
-    user: testPost.user,
-    timestamp: testPost.timestamp,
-    message: testPost.message,
+    title: req.body.title,
+    user: req.body.user,
+    timestamp: organizedDate + " " + time,
+    message: req.body.message,
+    comments: [],
   }).save((err) => {
     if (err) {
       return next(err);
@@ -51,7 +46,7 @@ exports.create_post = function (req, res, next) {
   });
 };
 
-exports.get_posts = function (req, res) {
+exports.get_posts = function (req, res, next) {
   Post.find({}).exec(function (err, list_posts) {
     if (err) {
       return next(err);
@@ -67,6 +62,7 @@ exports.get_post = function (req, res, next) {
         Post.findById(req.params.postId).exec(callback);
       },
     },
+
     (err, results) => {
       if (err) {
         return next(err);
@@ -82,9 +78,33 @@ exports.get_post = function (req, res, next) {
 };
 
 exports.update_post = function (req, res, next) {
+  body("title")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Title must be specified.");
+  body("message")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Post message must be specified.");
+
+  let currentDate = new Date();
+  let time =
+    currentDate.getHours() +
+    ":" +
+    currentDate.getMinutes() +
+    ":" +
+    currentDate.getSeconds();
+  let organizedDate = currentDate.toLocaleDateString();
+
   Post.findByIdAndUpdate(
     req.params.postId,
-    { title: "Updated Title 1" },
+    {
+      title: req.body.title,
+      timestamp: organizedDate + " " + time,
+      message: req.body.message,
+    },
     function (err, post) {
       if (err) {
         return next(err);

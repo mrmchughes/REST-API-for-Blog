@@ -1,7 +1,16 @@
+const { body } = require("express-validator");
 const Comment = require("../models/comment");
+const Post = require("../models/post");
+const async = require("async");
 
 // Handle comment create on POST.
 exports.create_comment = function (req, res, next) {
+  body("message")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Post message must be specified.");
+
   let currentDate = new Date();
   let time =
     currentDate.getHours() +
@@ -11,21 +20,47 @@ exports.create_comment = function (req, res, next) {
     currentDate.getSeconds();
   let organizedDate = currentDate.toLocaleDateString();
 
-  const post = new POST({
-    user: req.user.username,
+  const comment = new Comment({
+    user: req.body.user,
     timestamp: organizedDate + " " + time,
     message: req.body.message,
-  }).save((err) => {
+  });
+
+  const { postId } = req.params;
+  const post = Post.findById(postId);
+
+  post.update({ _id: post._id }, { $push: { comments: comment } });
+};
+
+exports.get_comments = function (req, res, next) {
+  Comment.find({}).exec(function (err, list_comments) {
     if (err) {
       return next(err);
     }
-    res.redirect("/");
+    res.send(list_comments);
   });
 };
 
-exports.get_comment = function (req, res, next) {};
-
-exports.get_comments = function (req, res, next) {};
+exports.get_comment = function (req, res, next) {
+  async.parallel(
+    {
+      comment(callback) {
+        Comment.findById(req.params.commentId).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+      if (results.post == null) {
+        const err = new Error("Comment not found");
+        err.status = 404;
+        return next(err);
+      }
+      res.send(results.comment);
+    }
+  );
+};
 
 exports.update_comment = function (req, res, next) {};
 
