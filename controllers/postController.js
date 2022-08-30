@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-const { restart } = require("nodemon");
+//const { restart } = require("nodemon");
 const Post = require("../models/post");
 //const Comment = require("../models/comment");
 const async = require("async");
@@ -110,7 +110,7 @@ exports.update_post = function (req, res, next) {
         return next(err);
       }
 
-      res.redirect("/posts");
+      res.redirect(`/posts/${req.params.postId}`);
     }
   );
 };

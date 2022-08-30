@@ -4,7 +4,7 @@ const Post = require("../models/post");
 const async = require("async");
 
 // Handle comment create on POST.
-exports.create_comment = function (req, res, next) {
+exports.create_comment = async (req, res) => {
   body("message")
     .trim()
     .isLength({ min: 1 })
@@ -26,8 +26,17 @@ exports.create_comment = function (req, res, next) {
     message: req.body.message,
   });
 
-  Post.findByIdAndUpdate(req.params.postId, {
-    $push: { comments: { comment } },
+  await comment.save();
+
+  const postRelated = await Post.findById(req.params.postId);
+
+  postRelated.comments.push(comment);
+
+  postRelated.save(function (err) {
+    if (err) {
+      console.log(err);
+    }
+    res.redirect(`/posts/${req.params.postId}`);
   });
 };
 
@@ -56,10 +65,7 @@ exports.get_comments = function (req, res, next) {
 exports.get_comment = function (req, res, next) {
   async.parallel(
     {
-      post(callback) {
-        Post.findById(req.params.postId).exec(callback);
-      },
-      comments(callback) {
+      comment(callback) {
         Comment.findById(req.params.commentId).exec(callback);
       },
     },
@@ -68,28 +74,56 @@ exports.get_comment = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      if (results.post.comments.comment == null) {
+      if (results.comment == null) {
         const err = new Error("Comment not found");
         err.status = 404;
         return next(err);
       }
-      res.send(results.post.comments.comment);
+      res.send(results.comment);
     }
   );
 };
 
-exports.update_comment = function (req, res, next) {};
+exports.update_comment = function (req, res, next) {
+  body("message")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Comment message must be specified.");
 
-exports.update_comments = function (req, res, next) {};
+  let currentDate = new Date();
+  let time =
+    currentDate.getHours() +
+    ":" +
+    currentDate.getMinutes() +
+    ":" +
+    currentDate.getSeconds();
+  let organizedDate = currentDate.toLocaleDateString();
+
+  Comment.findByIdAndUpdate(
+    req.params.commentId,
+    {
+      timestamp: organizedDate + " " + time,
+      message: req.body.message,
+    },
+    function (err, comment) {
+      if (err) {
+        return next(err);
+      }
+
+      res.redirect(`/posts/${req.params.postId}`);
+    }
+  );
+};
 
 // Handle comment delete on POST.
 exports.delete_comment = function (req, res, next) {
-  Comment.findByIdAndRemove(req.body.commentid, function deleteComment(err) {
+  Comment.findByIdAndRemove(req.params.commentId, function deleteComment(err) {
     if (err) {
       return next(err);
     }
 
-    res.redirect("/");
+    res.redirect(`/posts/${req.params.postId}`);
   });
 };
 
