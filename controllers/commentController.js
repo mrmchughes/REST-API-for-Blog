@@ -21,6 +21,7 @@ exports.create_comment = async (req, res) => {
   let organizedDate = currentDate.toLocaleDateString();
 
   const comment = new Comment({
+    post: req.params.postId,
     user: req.body.user,
     timestamp: organizedDate + " " + time,
     message: req.body.message,

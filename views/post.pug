@@ -1,9 +1,16 @@
 extends layout
 
 block content
-  p Test Message Below
+  p Test Post Below
   div
     p Title: #{title} 
     p User: #{user} 
     p Timestamp: #{timestamp}
     p Message: #{message}
+
+  div 
+    each comment in comments 
+      hr
+      p User : #{comment.user}
+      p Timestamp: #{comment.timestamp}
+      p Message: #{comment.message}

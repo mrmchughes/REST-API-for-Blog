@@ -1,7 +1,7 @@
 const { body } = require("express-validator");
 //const { restart } = require("nodemon");
 const Post = require("../models/post");
-//const Comment = require("../models/comment");
+const Comment = require("../models/comment");
 const async = require("async");
 
 // Display post create form on GET.
@@ -72,7 +72,13 @@ exports.get_post = function (req, res, next) {
         err.status = 404;
         return next(err);
       }
-      res.send(results.post);
+      res.render("post", {
+        title: results.post.title,
+        user: results.post.user,
+        timestamp: results.post.timestamp,
+        message: results.post.message,
+        comments: results.post.comments,
+      });
     }
   );
 };
@@ -105,7 +111,7 @@ exports.update_post = function (req, res, next) {
       timestamp: organizedDate + " " + time,
       message: req.body.message,
     },
-    function (err, post) {
+    function (err) {
       if (err) {
         return next(err);
       }
