@@ -25,27 +25,22 @@ exports.create_comment = async (req, res) => {
     user: req.body.user,
     timestamp: organizedDate + " " + time,
     message: req.body.message,
-  });
-
-  await comment.save();
-
-  const postRelated = await Post.findById(req.params.postId);
-
-  postRelated.comments.push(comment);
-
-  postRelated.save(function (err) {
+  }).save((err) => {
     if (err) {
-      console.log(err);
+      return next(err);
     }
-    res.redirect(`/posts/${req.params.postId}`);
+    res.send(comment);
   });
 };
 
 exports.get_comments = function (req, res, next) {
   async.parallel(
     {
-      post(callback) {
+      post: function (callback) {
         Post.findById(req.params.postId).exec(callback);
+      },
+      comment(callback) {
+        Comment.find({ post: req.params.postId }).exec(callback);
       },
     },
 
@@ -53,12 +48,12 @@ exports.get_comments = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      if (results.post.comments == null) {
+      if (results.post == null) {
         const err = new Error("Post comments not found");
         err.status = 404;
         return next(err);
       }
-      res.send(results.post.comments);
+      res.send(results.comment);
     }
   );
 };
@@ -104,6 +99,7 @@ exports.update_comment = function (req, res, next) {
   Comment.findByIdAndUpdate(
     req.params.commentId,
     {
+      user: req.body.user,
       timestamp: organizedDate + " " + time,
       message: req.body.message,
     },
@@ -112,7 +108,9 @@ exports.update_comment = function (req, res, next) {
         return next(err);
       }
 
-      res.redirect(`/posts/${req.params.postId}`);
+      res.redirect(
+        `/posts/${req.params.postId}/comments/${req.params.commentId}`
+      );
     }
   );
 };

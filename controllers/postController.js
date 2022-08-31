@@ -37,7 +37,6 @@ exports.create_post = function (req, res, next) {
     user: req.body.user,
     timestamp: organizedDate + " " + time,
     message: req.body.message,
-    comments: [],
   }).save((err) => {
     if (err) {
       return next(err);
@@ -58,8 +57,11 @@ exports.get_posts = function (req, res, next) {
 exports.get_post = function (req, res, next) {
   async.parallel(
     {
-      post(callback) {
+      post: function (callback) {
         Post.findById(req.params.postId).exec(callback);
+      },
+      comment: function (callback) {
+        Comment.find({ post: req.params.postId }).exec(callback);
       },
     },
 
@@ -77,7 +79,7 @@ exports.get_post = function (req, res, next) {
         user: results.post.user,
         timestamp: results.post.timestamp,
         message: results.post.message,
-        comments: results.post.comments,
+        comments: results.comment,
       });
     }
   );
