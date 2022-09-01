@@ -4,7 +4,7 @@ const Post = require("../models/post");
 const async = require("async");
 
 // Handle comment create on POST.
-exports.create_comment = async (req, res) => {
+exports.create_comment = function (req, res) {
   body("message")
     .trim()
     .isLength({ min: 1 })
@@ -22,7 +22,7 @@ exports.create_comment = async (req, res) => {
 
   const comment = new Comment({
     post: req.params.postId,
-    user: req.body.user,
+    user: req.user.username,
     timestamp: organizedDate + " " + time,
     message: req.body.message,
   }).save((err) => {

@@ -4,21 +4,13 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
-exports.login_get = function (req, res) {
-  res.render("log-in-form", { user: req.user });
-};
-
-exports.login_post = passport.authenticate("local", {
+exports.login = passport.authenticate("local", {
   successRedirect: "/posts",
   failureRedirect: "/users/login",
 });
 
-exports.signup_get = function (req, res, next) {
-  res.render("sign-up-form");
-};
-
 // Handle user create on POST.
-exports.signup_post = [
+exports.signup = [
   // Validate and sanitize fields.
   body("username")
     .trim()
