@@ -4,28 +4,21 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
-exports.login = function (req, res, next) {
-  passport.authenticate("local", { session: false }, (err, user, info) => {
-    if (err || !user) {
-      return res.status(400).json({
-        message: "Something went wrong",
-        user: user,
-      });
-    }
+exports.login_get = function (req, res) {
+  res.render("log-in-form", { user: req.user });
+};
 
-    req.login(user, { session: false }, (err) => {
-      if (err) {
-        res.send(err);
-      }
+exports.login_post = passport.authenticate("local", {
+  successRedirect: "/posts",
+  failureRedirect: "/users/login",
+});
 
-      const token = jwt.sign(user, "your_jwt_secret");
-      return res.json({ user, token });
-    });
-  })(req, res);
+exports.signup_get = function (req, res, next) {
+  res.render("sign-up-form");
 };
 
 // Handle user create on POST.
-exports.signup = [
+exports.signup_post = [
   // Validate and sanitize fields.
   body("username")
     .trim()
@@ -68,14 +61,21 @@ exports.signup = [
             return next(err);
           }
 
-          res.redirect("/");
+          res.redirect("/posts");
         });
       }
     });
   },
 ];
 
-exports.logout = function (req, res, next) {};
+exports.logout = function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/posts");
+  });
+};
 
 // Creates a new blog post
 // POST /posts

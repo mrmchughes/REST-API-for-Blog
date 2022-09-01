@@ -15,18 +15,24 @@ const user = require("../models/user");
 router.get("/", function (req, res) {});
 
 // User ROUTES
-router.post("/login", userController.login);
+router.get("/users/login", userController.login_get);
 
-router.get("/logout", userController.logout);
+router.post("/users/login", userController.login_post);
 
-router.post("/signup", userController.signup);
+router.get("/users/logout", userController.logout);
+
+router.get("/users/signup", userController.signup_get);
+
+router.post("/users/signup", userController.signup_post);
 
 // Post ROUTES
 router.get("/posts", postController.get_posts);
 
 router.get("/posts/:postId", postController.get_post);
 
-router.post("/posts", postController.create_post);
+router.get("/create", postController.create_post_get);
+
+router.post("/create", postController.create_post_post);
 
 router.put("/posts/:postId", postController.update_post);
 

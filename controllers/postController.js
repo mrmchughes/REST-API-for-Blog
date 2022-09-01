@@ -9,8 +9,12 @@ const async = require("async");
 //res.render("post-form", { user: req.user });
 //};
 
+exports.create_post_get = function (req, res, next) {
+  res.render("message-form", { user: req.user });
+};
+
 // Handle post create on POST.
-exports.create_post = function (req, res, next) {
+exports.create_post_post = function (req, res, next) {
   body("title")
     .trim()
     .isLength({ min: 1 })
@@ -34,7 +38,7 @@ exports.create_post = function (req, res, next) {
   const post = new Post({
     isPublished: false,
     title: req.body.title,
-    user: req.body.user,
+    user: req.user.username,
     timestamp: organizedDate + " " + time,
     message: req.body.message,
   }).save((err) => {
