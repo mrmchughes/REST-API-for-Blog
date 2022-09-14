@@ -1,15 +1,9 @@
 const { body } = require("express-validator");
-//const { restart } = require("nodemon");
 const Post = require("../models/post");
 const Comment = require("../models/comment");
 const async = require("async");
 
-// Display post create form on GET.
-//exports.create_post_get = function (req, res) {
-//res.render("post-form", { user: req.user });
-//};
-
-// Handle post create on POST.
+// Create a post
 exports.create_post = function (req, res, next) {
   body("title")
     .trim()
@@ -45,6 +39,7 @@ exports.create_post = function (req, res, next) {
   });
 };
 
+// Fetch all posts
 exports.get_posts = function (req, res, next) {
   Post.find({}).exec(function (err, list_posts) {
     if (err) {
@@ -54,6 +49,7 @@ exports.get_posts = function (req, res, next) {
   });
 };
 
+// Fetch a single post
 exports.get_post = function (req, res, next) {
   async.parallel(
     {
@@ -85,6 +81,7 @@ exports.get_post = function (req, res, next) {
   );
 };
 
+// Update a post
 exports.update_post = function (req, res, next) {
   body("title")
     .trim()
@@ -123,7 +120,7 @@ exports.update_post = function (req, res, next) {
   );
 };
 
-// Handle post delete on POST.
+// Delete a post
 exports.delete_post = function (req, res, next) {
   Post.findByIdAndRemove(req.params.postId, function deletePost(err) {
     if (err) {
@@ -133,18 +130,3 @@ exports.delete_post = function (req, res, next) {
     res.redirect("/posts");
   });
 };
-
-// Creates a new blog post
-// POST /posts
-
-// Fetch a single blog post
-// GET /posts/:postid
-
-// Update a single blog post
-// PUT /posts/:postid
-
-// Delete a single blog post
-// DELETE /posts/:postid
-
-// USE THE FOLLOWING FORMAT FOR CONTROLLER FUNCTIONS
-//exports.{CREATE / READ / UPDATE / DELETE} followed by the name of the affected model

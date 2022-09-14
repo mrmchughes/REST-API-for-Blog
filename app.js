@@ -5,11 +5,9 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const bodyParser = require("body-parser");
-
 const passportJWT = require("passport-jwt");
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
-
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const bcrypt = require("bcryptjs");

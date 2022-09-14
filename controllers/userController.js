@@ -4,11 +4,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
-exports.login_get = function (req, res, next) {
-  res.render("log-in-form", { user: req.user });
-};
-
-exports.login_post = function (req, res, next) {
+// Login a user
+exports.login = function (req, res, next) {
   passport.authenticate("local", { session: false }, (err, user, info) => {
     if (err || !user) {
       return res.status(400).json({
@@ -28,12 +25,8 @@ exports.login_post = function (req, res, next) {
   })(req, res);
 };
 
-exports.signup_get = function (req, res, next) {
-  res.render("sign-up-form");
-};
-
-exports.signup_post = [
-  // Validate and sanitize fields.
+// Signup a user
+exports.signup = [
   body("username")
     .trim()
     .isLength({ min: 1 })
@@ -55,10 +48,9 @@ exports.signup_post = [
       throw new Error("Password confirmation does not match password");
     }
 
-    // Indicates the success of this synchronous custom validator
     return true;
   }),
-  // Process request after validation and sanitization.
+
   (req, res, next) => {
     bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
       const errors = validationResult(req);
@@ -82,6 +74,7 @@ exports.signup_post = [
   },
 ];
 
+// Logout a user
 exports.logout = function (req, res, next) {
   req.logout(function (err) {
     if (err) {

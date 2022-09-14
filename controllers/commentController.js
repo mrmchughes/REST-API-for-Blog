@@ -3,7 +3,7 @@ const Comment = require("../models/comment");
 const Post = require("../models/post");
 const async = require("async");
 
-// Handle comment create on POST.
+// Create a comment
 exports.create_comment = function (req, res) {
   body("message")
     .trim()
@@ -33,6 +33,7 @@ exports.create_comment = function (req, res) {
   });
 };
 
+// Fetch all comments
 exports.get_comments = function (req, res, next) {
   async.parallel(
     {
@@ -58,6 +59,7 @@ exports.get_comments = function (req, res, next) {
   );
 };
 
+// Fetch a single comment
 exports.get_comment = function (req, res, next) {
   async.parallel(
     {
@@ -80,6 +82,7 @@ exports.get_comment = function (req, res, next) {
   );
 };
 
+// Update a comment
 exports.update_comment = function (req, res, next) {
   body("message")
     .trim()
@@ -115,7 +118,7 @@ exports.update_comment = function (req, res, next) {
   );
 };
 
-// Handle comment delete on POST.
+// Delete a comment
 exports.delete_comment = function (req, res, next) {
   Comment.findByIdAndRemove(req.params.commentId, function deleteComment(err) {
     if (err) {
@@ -125,20 +128,3 @@ exports.delete_comment = function (req, res, next) {
     res.redirect(`/posts/${req.params.postId}`);
   });
 };
-
-exports.delete_comments = function (req, res, next) {};
-
-// Create a new comment
-
-// Fetch a single comment
-
-// Fetch all post comments
-
-// Update a single comment
-
-// Delete a single comment
-
-// Delete all post comments
-
-// USE THE FOLLOWING FORMAT FOR CONTROLLER FUNCTIONS
-//exports.{CREATE / READ / UPDATE / DELETE} followed by the name of the affected model

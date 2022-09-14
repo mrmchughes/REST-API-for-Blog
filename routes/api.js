@@ -7,16 +7,14 @@ const postController = require("../controllers/postController");
 const commentController = require("../controllers/commentController");
 
 // GET Index page.
-router.get("/", function (req, res) {});
+router.get("/", res.redirect("/api/posts"));
 
 // User ROUTES
-router.get("/login", userController.login_get);
-router.post("/login", userController.login_post);
+router.post("/login", userController.login);
 
 router.get("/logout", userController.logout);
 
-router.get("/signup", userController.signup_get);
-router.post("/signup", userController.signup_post);
+router.post("/signup", userController.signup);
 
 // Post ROUTES
 router.get("/posts", postController.get_posts);
