@@ -10,10 +10,5 @@ let PostSchema = new Schema({
   message: { type: String, required: true },
 });
 
-// Virtual for post's URL
-PostSchema.virtual("url").get(() => {
-  return `/posts/${this._id}`;
-});
-
 //Export model
 module.exports = mongoose.model("Post", PostSchema);

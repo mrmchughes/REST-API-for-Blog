@@ -4,13 +4,35 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
-exports.login = passport.authenticate("local", {
-  successRedirect: "/posts",
-  failureRedirect: "/users/login",
-});
+exports.login_get = function (req, res, next) {
+  res.render("log-in-form", { user: req.user });
+};
 
-// Handle user create on POST.
-exports.signup = [
+exports.login_post = function (req, res, next) {
+  passport.authenticate("local", { session: false }, (err, user, info) => {
+    if (err || !user) {
+      return res.status(400).json({
+        message: "Something is not right",
+        user: user,
+      });
+    }
+
+    req.login(user, { session: false }, (err) => {
+      if (err) {
+        res.send(err);
+      }
+
+      const token = jwt.sign({ user: body }, process.env.jwtSecret);
+      return res.json({ user, token });
+    });
+  })(req, res);
+};
+
+exports.signup_get = function (req, res, next) {
+  res.render("sign-up-form");
+};
+
+exports.signup_post = [
   // Validate and sanitize fields.
   body("username")
     .trim()
@@ -68,18 +90,3 @@ exports.logout = function (req, res, next) {
     res.redirect("/posts");
   });
 };
-
-// Creates a new blog post
-// POST /posts
-
-// Fetch a single blog post
-// GET /posts/:postid
-
-// Update a single blog post
-// PUT /posts/:postid
-
-// Delete a single blog post
-// DELETE /posts/:postid
-
-// USE THE FOLLOWING FORMAT FOR CONTROLLER FUNCTIONS
-//exports.{CREATE / READ / UPDATE / DELETE} followed by the name of the affected model

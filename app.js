@@ -10,10 +10,6 @@ const passportJWT = require("passport-jwt");
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 
-//const userController = require("./controllers/userController");
-
-//app.use("/userController");
-
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const bcrypt = require("bcryptjs");
@@ -47,7 +43,13 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(
+  session({
+    secret: process.env.sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
@@ -76,23 +78,23 @@ passport.use(
   })
 );
 
-//passport.use(
-//new JWTStrategy(
-//{
-//jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-//secretOrKey: "your_jwt_secret",
-//},
-//function (jwtPayload, cb) {
-//return UserModel.findOneById(jwtPayload.id)
-//.then((user) => {
-//return cb(null, user);
-//})
-//.catch((err) => {
-//return cb(err);
-//});
-//}
-//)
-//);
+passport.use(
+  new JWTStrategy(
+    {
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.jwtSecret,
+    },
+    function (jwtPayload, cb) {
+      return UserModel.findOneById(jwtPayload.id)
+        .then((user) => {
+          return cb(null, user);
+        })
+        .catch((err) => {
+          return cb(err);
+        });
+    }
+  )
+);
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);

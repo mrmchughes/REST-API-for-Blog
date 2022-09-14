@@ -1,25 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
 
 // Require controllers
 const userController = require("../controllers/userController");
 const postController = require("../controllers/postController");
 const commentController = require("../controllers/commentController");
 
-const Post = require("../models/post");
-const Comment = require("../models/comment");
-const user = require("../models/user");
-
 // GET Index page.
 router.get("/", function (req, res) {});
 
 // User ROUTES
-router.post("/login", userController.login);
+router.get("/login", userController.login_get);
+router.post("/login", userController.login_post);
 
 router.get("/logout", userController.logout);
 
-router.post("/signup", userController.signup);
+router.get("/signup", userController.signup_get);
+router.post("/signup", userController.signup_post);
 
 // Post ROUTES
 router.get("/posts", postController.get_posts);
