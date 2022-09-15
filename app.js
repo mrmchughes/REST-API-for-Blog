@@ -76,11 +76,15 @@ passport.use(
   })
 );
 
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWTSecret,
+};
+
 passport.use(
   new JWTStrategy(
     {
-      secretOrKey: process.env.JWTSECRET,
-      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      jwtOptions,
     },
     async (token, done) => {
       try {
