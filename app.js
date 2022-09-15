@@ -56,7 +56,7 @@ app.use(function (req, res, next) {
 });
 
 passport.use(
-  new LocalStrategy((username, password, done) => {
+  new localStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
       if (err) {
         return done(err);
