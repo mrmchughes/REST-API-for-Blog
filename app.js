@@ -77,19 +77,17 @@ passport.use(
 );
 
 passport.use(
-  new JWTStrategy(
+  new JWTstrategy(
     {
+      secretOrKey: process.env.JWTSECRET,
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWTSecret,
     },
-    function (jwtPayload, cb) {
-      return UserModel.findOneById(jwtPayload.id)
-        .then((user) => {
-          return cb(null, user);
-        })
-        .catch((err) => {
-          return cb(err);
-        });
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        done(error);
+      }
     }
   )
 );
