@@ -41,6 +41,13 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  session({
+    secret: process.env.sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
