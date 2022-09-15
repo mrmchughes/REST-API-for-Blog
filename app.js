@@ -80,7 +80,7 @@ passport.use(
   new JWTStrategy(
     {
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.jwtSecret,
+      secretOrKey: process.env.JWTSecret,
     },
     function (jwtPayload, cb) {
       return UserModel.findOneById(jwtPayload.id)
