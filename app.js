@@ -77,7 +77,7 @@ passport.use(
 );
 
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWTSecret,
 };
 
