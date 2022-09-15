@@ -14,14 +14,11 @@ const localStrategy = require("passport-local").Strategy;
 const JWTstrategy = require("passport-jwt").Strategy;
 const ExtractJWT = require("passport-jwt").ExtractJwt;
 
-const dotenv = require("dotenv");
-dotenv.config();
-
 const User = require("./models/user");
 
-const indexRouter = require("./routes/api");
+require("dotenv").config();
 
-const app = express();
+const indexRouter = require("./routes/api");
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
@@ -29,6 +26,8 @@ const mongoDB = process.env.MONGODB_URI;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -42,13 +41,6 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(
-  session({
-    secret: process.env.sessionSecret,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
