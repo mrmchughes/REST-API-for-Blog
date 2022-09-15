@@ -2,17 +2,18 @@ const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const bodyParser = require("body-parser");
-const passportJWT = require("passport-jwt");
-const JWTStrategy = passportJWT.Strategy;
-const ExtractJWT = passportJWT.ExtractJwt;
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const bcrypt = require("bcryptjs");
 const compression = require("compression");
 const helmet = require("helmet");
+const bodyParser = require("body-parser");
+
+const passport = require("passport");
+const localStrategy = require("passport-local").Strategy;
+const JWTstrategy = require("passport-jwt").Strategy;
+const ExtractJWT = require("passport-jwt").ExtractJwt;
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -76,15 +77,11 @@ passport.use(
   })
 );
 
-const jwtOptions = {
-  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWTSecret,
-};
-
 passport.use(
-  new JWTStrategy(
+  new JWTstrategy(
     {
-      jwtOptions,
+      secretOrKey: process.env.jwtSecret,
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     },
     async (token, done) => {
       try {
