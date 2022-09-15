@@ -77,7 +77,7 @@ passport.use(
 );
 
 passport.use(
-  new JWTstrategy(
+  new JWTStrategy(
     {
       secretOrKey: process.env.JWTSECRET,
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
