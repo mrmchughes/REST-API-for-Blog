@@ -7,7 +7,9 @@ const postController = require("../controllers/postController");
 const commentController = require("../controllers/commentController");
 
 // GET Index page.
-router.get("/", res.redirect("/api/posts"));
+router.get("/", function (req, res) {
+  res.redirect("/api/posts");
+});
 
 // User ROUTES
 router.post("/login", userController.login);
