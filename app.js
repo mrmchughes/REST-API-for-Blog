@@ -8,6 +8,7 @@ const bcrypt = require("bcryptjs");
 const compression = require("compression");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
@@ -40,6 +41,7 @@ app.use(cookieParser());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(helmet());
+app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
