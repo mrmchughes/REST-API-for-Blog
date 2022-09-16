@@ -56,7 +56,7 @@ exports.get_post = function (req, res, next) {
       post: function (callback) {
         Post.findById(req.params.postId).exec(callback);
       },
-      comment: function (callback) {
+      comments: function (callback) {
         Comment.find({ post: req.params.postId }).exec(callback);
       },
     },
@@ -70,13 +70,7 @@ exports.get_post = function (req, res, next) {
         err.status = 404;
         return next(err);
       }
-      res.render("post", {
-        title: results.post.title,
-        user: results.post.user,
-        timestamp: results.post.timestamp,
-        message: results.post.message,
-        comments: results.comment,
-      });
+      res.send(results.post);
     }
   );
 };

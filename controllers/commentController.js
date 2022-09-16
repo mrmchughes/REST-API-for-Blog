@@ -40,7 +40,7 @@ exports.get_comments = function (req, res, next) {
       post: function (callback) {
         Post.findById(req.params.postId).exec(callback);
       },
-      comment(callback) {
+      comments(callback) {
         Comment.find({ post: req.params.postId }).exec(callback);
       },
     },
@@ -54,7 +54,7 @@ exports.get_comments = function (req, res, next) {
         err.status = 404;
         return next(err);
       }
-      res.send(results.comment);
+      res.send(results.comments);
     }
   );
 };
