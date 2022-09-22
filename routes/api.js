@@ -30,9 +30,9 @@ router.put("/posts/:postId", postController.update_post);
 router.delete("/posts/:postId", postController.delete_post);
 
 // Comment ROUTES
-router.get("/comments", commentController.get_comments);
+router.get("/posts/:postId/comments", commentController.get_comments);
 
-router.get("/comments/:commentId", commentController.get_comment);
+router.get("/posts/:postId/comments/:commentId", commentController.get_comment);
 
 router.post("/posts/:postId", commentController.create_comment);
 
