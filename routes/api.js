@@ -30,20 +30,14 @@ router.put("/posts/:postId", postController.update_post);
 router.delete("/posts/:postId", postController.delete_post);
 
 // Comment ROUTES
-router.get("/posts/:postId/comments", commentController.get_comments);
+router.get("comments", commentController.get_comments);
 
-router.get("/posts/:postId/comments/:commentId", commentController.get_comment);
+router.get("comments/:commentId", commentController.get_comment);
 
 router.post("/posts/:postId", commentController.create_comment);
 
-router.put(
-  "/posts/:postId/comments/:commentId",
-  commentController.update_comment
-);
+router.put("comments/:commentId", commentController.update_comment);
 
-router.delete(
-  "/posts/:postId/comments/:commentId",
-  commentController.delete_comment
-);
+router.delete("comments/:commentId", commentController.delete_comment);
 
 module.exports = router;
