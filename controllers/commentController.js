@@ -22,7 +22,7 @@ exports.create_comment = function (req, res) {
 
   const comment = new Comment({
     post: req.params.postId,
-    user: req.user.username,
+    user: req.body.username,
     timestamp: organizedDate + " " + time,
     message: req.body.message,
   }).save((err) => {
