@@ -30,6 +30,7 @@ exports.create_comment = function (req, res) {
       return next(err);
     }
     res.send(comment);
+    res.render(`posts/${params._id}`);
   });
 };
 
