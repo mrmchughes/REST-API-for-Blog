@@ -34,7 +34,7 @@ router.get("/posts/:postId/comments", commentController.get_comments);
 
 router.get("/posts/:postId/comments/:commentId", commentController.get_comment);
 
-router.post("/posts/:postId", commentController.create_comment);
+router.post("/posts/:postId/comments", commentController.create_comment);
 
 router.put(
   "/posts/:postId/comments/:commentId",
