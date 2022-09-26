@@ -29,7 +29,7 @@ exports.create_comment = function (req, res) {
     if (err) {
       return next(err);
     }
-    res.send(comment);
+    res.json(comment);
   });
 };
 
@@ -54,7 +54,7 @@ exports.get_comments = function (req, res, next) {
         err.status = 404;
         return next(err);
       }
-      res.send(results.comments);
+      res.json(results.comments);
     }
   );
 };
@@ -77,7 +77,7 @@ exports.get_comment = function (req, res, next) {
         err.status = 404;
         return next(err);
       }
-      res.send(results.comment);
+      res.json(results.comment);
     }
   );
 };

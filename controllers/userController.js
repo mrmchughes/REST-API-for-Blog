@@ -16,7 +16,7 @@ exports.login = function (req, res, next) {
 
     req.login(user, { session: false }, (err) => {
       if (err) {
-        res.send(err);
+        res.json(err);
       }
 
       const token = jwt.sign({ user: body }, process.env.jwtSecret);

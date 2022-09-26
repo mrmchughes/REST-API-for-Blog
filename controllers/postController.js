@@ -35,7 +35,7 @@ exports.create_post = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.send(post);
+    res.json(post);
   });
 };
 
@@ -45,7 +45,7 @@ exports.get_posts = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.send(list_posts);
+    res.json(list_posts);
   });
 };
 
@@ -70,7 +70,7 @@ exports.get_post = function (req, res, next) {
         err.status = 404;
         return next(err);
       }
-      res.send(results.post);
+      res.json(results.post);
     }
   );
 };
