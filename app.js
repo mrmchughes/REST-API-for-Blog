@@ -29,6 +29,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 const app = express();
+app.use(cors());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -41,7 +42,7 @@ app.use(cookieParser());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(helmet());
-app.use(cors());
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
