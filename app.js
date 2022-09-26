@@ -19,8 +19,6 @@ const User = require("./models/user");
 
 require("dotenv").config();
 
-const indexRouter = require("./routes/api");
-
 // Set up mongoose connection
 const mongoose = require("mongoose");
 const mongoDB = process.env.MONGODB_URI;
@@ -56,6 +54,8 @@ app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
   next();
 });
+
+const indexRouter = require("./routes/api");
 
 passport.use(
   new localStrategy((username, password, done) => {
