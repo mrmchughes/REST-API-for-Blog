@@ -56,7 +56,7 @@ exports.signup = [
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        res.render("sign-up-form", { errors: errors.array() });
+        res.render("/signup", { errors: errors.array() });
       } else {
         let user = new User({
           username: req.body.username,
