@@ -67,7 +67,7 @@ exports.signup = [
             return next(err);
           }
 
-          res.redirect("/posts");
+          res.redirect("/");
         });
       }
     });
