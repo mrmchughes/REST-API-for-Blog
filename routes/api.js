@@ -8,7 +8,7 @@ const commentController = require("../controllers/commentController");
 
 // GET Index page.
 router.get("/", function (req, res) {
-  res.redirect("/");
+  res.redirect("/posts");
 });
 
 // User ROUTES
