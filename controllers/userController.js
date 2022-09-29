@@ -31,6 +31,8 @@ exports.signup = [
     .trim()
     .isLength({ min: 1 })
     .withMessage("username is required")
+    .isLength({ max: 30 })
+    .withMessage("username can't be more than 30 characters")
     .isAlphanumeric()
     .withMessage(
       "Username must only include alpha-numeric characters, and no spaces"

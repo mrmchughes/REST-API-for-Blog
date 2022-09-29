@@ -5,19 +5,11 @@ const async = require("async");
 
 // Create a comment
 exports.create_comment = function (req, res) {
-  body("username")
+  body("message")
     .trim()
     .isLength({ min: 1 })
-    .withMessage("username is required")
-    .isAlphanumeric()
-    .withMessage(
-      "Username must only include alpha-numeric characters, and no spaces"
-    ),
-    body("message")
-      .trim()
-      .isLength({ min: 1 })
-      .escape()
-      .withMessage("Post message must be specified.");
+    .escape()
+    .withMessage("Post message must be specified.");
 
   let currentDate = new Date();
   let time =
