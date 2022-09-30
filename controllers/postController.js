@@ -26,7 +26,6 @@ exports.create_post = function (req, res, next) {
   let organizedDate = currentDate.toLocaleDateString();
 
   const post = new Post({
-    isPublished: false,
     title: req.body.title,
     user: req.user.username,
     timestamp: organizedDate + " " + time,
