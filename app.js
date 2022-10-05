@@ -109,7 +109,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", indexRouter);
+app.use("/", passport.authenticate("jwt", { session: false }), indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
