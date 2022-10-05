@@ -58,6 +58,7 @@ app.use(function (req, res, next) {
 const indexRouter = require("./routes/api");
 
 passport.use(
+  "login",
   new localStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
       if (err) {
