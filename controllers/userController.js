@@ -5,27 +5,28 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
 // Login a user
-exports.login = function (req, res, next) {
-  passport.authenticate("login", (err, user, info) => {
-    if (err || !user) {
-      return res.status(400).json({
-        message: "Something is not right",
-        user: user,
-      });
-    }
+exports.login = async (req, res, next) => {
+  passport.authenticate("login", async (err, user, info) => {
+    try {
+      if (err || !user) {
+        const error = new Error("An error occurred.");
 
-    req.login(user, { session: false }, (err) => {
-      if (err) {
-        res.json(err);
+        return next(error);
       }
+      req.login(user, { session: false }, async (error) => {
+        if (error) return next(error);
 
-      const body = { _id: user._id, username: username, admin: user.admin };
-      const token = jwt.sign({ user: body }, process.env.jwtSecret, {
-        expiresIn: "1d",
+        const body = { _id: user._id, username: user.username };
+        const token = jwt.sign({ user: body }, process.env.jwtSecret, {
+          expiresIn: "1d",
+        });
+
+        return res.json({ token });
       });
-      return res.json({ user, token });
-    });
-  })(req, res);
+    } catch (error) {
+      return next(error);
+    }
+  })(req, res, next);
 };
 
 // Signup a user
