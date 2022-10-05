@@ -57,6 +57,11 @@ app.use(function (req, res, next) {
 
 const indexRouter = require("./routes/api");
 
+const corsOptions = {
+  origin: ["http://localhost:3000"],
+  optionsSuccessStatus: 200,
+};
+
 passport.use(
   new localStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
@@ -109,7 +114,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", indexRouter);
+app.use("/", cors(corsOptions), indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
