@@ -19,7 +19,10 @@ exports.login = function (req, res, next) {
         res.json(err);
       }
 
-      const token = jwt.sign({ user: body }, process.env.jwtSecret);
+      const body = { _id: user._id, username: username, admin: user.admin };
+      const token = jwt.sign({ user: body }, process.env.jwtSecret, {
+        expiresIn: "1d",
+      });
       return res.json({ user, token });
     });
   })(req, res);
