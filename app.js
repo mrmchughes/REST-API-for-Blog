@@ -19,6 +19,11 @@ const User = require("./models/user");
 
 require("dotenv").config();
 
+let corsOptions = {
+  origin: ["http://localhost:3000"],
+  optionsSuccessStatus: 200,
+};
+
 // Set up mongoose connection
 const mongoose = require("mongoose");
 const mongoDB = process.env.MONGODB_URI;
@@ -40,6 +45,7 @@ app.use(cookieParser());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(helmet());
+app.options("*", cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -56,11 +62,6 @@ app.use(function (req, res, next) {
 });
 
 const indexRouter = require("./routes/api");
-
-const corsOptions = {
-  origin: ["http://localhost:3000"],
-  optionsSuccessStatus: 200,
-};
 
 passport.use(
   new localStrategy((username, password, done) => {
