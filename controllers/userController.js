@@ -6,7 +6,7 @@ const User = require("../models/user");
 
 // Login a user
 exports.login = function (req, res, next) {
-  passport.authenticate("local", { session: false }, (err, user, info) => {
+  passport.authenticate("login", (err, user, info) => {
     if (err || !user) {
       return res.status(400).json({
         message: "Something is not right",
