@@ -23,26 +23,44 @@ router.get("/posts", postController.get_posts);
 
 router.get("/posts/:postId", postController.get_post);
 
-router.post("/posts", postController.create_post);
+router.post(
+  "/posts",
+  passport.authenticate("jwt", { session: false }),
+  postController.create_post
+);
 
-router.put("/posts/:postId", postController.update_post);
+router.put(
+  "/posts/:postId",
+  passport.authenticate("jwt", { session: false }),
+  postController.update_post
+);
 
-router.delete("/posts/:postId", postController.delete_post);
+router.delete(
+  "/posts/:postId",
+  passport.authenticate("jwt", { session: false }),
+  postController.delete_post
+);
 
 // Comment ROUTES
 router.get("/posts/:postId/comments", commentController.get_comments);
 
 router.get("/posts/:postId/comments/:commentId", commentController.get_comment);
 
-router.post("/posts/:postId/comments", commentController.create_comment);
+router.post(
+  "/posts/:postId/comments",
+  passport.authenticate("jwt", { session: false }),
+  commentController.create_comment
+);
 
 router.put(
   "/posts/:postId/comments/:commentId",
+  passport.authenticate("jwt", { session: false }),
   commentController.update_comment
 );
 
 router.delete(
   "/posts/:postId/comments/:commentId",
+  passport.authenticate("jwt", { session: false }),
   commentController.delete_comment
 );
 
