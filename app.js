@@ -19,11 +19,6 @@ const User = require("./models/user");
 
 require("dotenv").config();
 
-let corsOptions = {
-  origin: ["http://localhost:3000"],
-  optionsSuccessStatus: 200,
-};
-
 // Set up mongoose connection
 const mongoose = require("mongoose");
 const mongoDB = process.env.MONGODB_URI;
@@ -45,7 +40,6 @@ app.use(cookieParser());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(helmet());
-app.options("*", cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -115,7 +109,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", cors(corsOptions), indexRouter);
+app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
