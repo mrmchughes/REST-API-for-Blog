@@ -9,7 +9,7 @@ exports.create_comment = function (req, res) {
     .trim()
     .isLength({ min: 1 })
     .escape()
-    .withMessage("Post message must be specified.");
+    .withMessage("Comment message must be specified.");
 
   let currentDate = new Date();
   let time =
