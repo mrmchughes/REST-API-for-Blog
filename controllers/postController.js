@@ -4,7 +4,7 @@ const Comment = require("../models/comment");
 const async = require("async");
 
 // Create a post
-exports.create_post = function (req, res, next) {
+exports.create_post_POST = function (req, res, next) {
   body("title")
     .trim()
     .isLength({ min: 1 })
