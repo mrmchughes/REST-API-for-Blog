@@ -25,7 +25,7 @@ exports.create_post = function (req, res, next) {
   const post = new Post({
     title: req.body.title,
     user: req.user.username,
-    timestamp: organizedDate + " " + time,
+    timestamp: organizedDate + ", " + time,
     message: req.body.message,
   }).save((err) => {
     if (err) {
