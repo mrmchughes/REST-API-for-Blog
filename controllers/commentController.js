@@ -91,13 +91,10 @@ exports.update_comment = function (req, res, next) {
     .withMessage("Comment message must be specified.");
 
   let currentDate = new Date();
-  let time =
-    currentDate.getHours() +
-    ":" +
-    currentDate.getMinutes() +
-    ":" +
-    currentDate.getSeconds();
-  let organizedDate = currentDate.toLocaleDateString();
+  let time = currentDate.getHours() + ":" + currentDate.getMinutes();
+
+  let options = { month: "short", day: "numeric", year: "numeric" };
+  let organizedDate = currentDate.toLocaleDateString("en-US", options);
 
   Comment.findByIdAndUpdate(
     req.params.commentId,
