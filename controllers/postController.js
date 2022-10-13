@@ -17,12 +17,7 @@ exports.create_post = function (req, res, next) {
     .withMessage("Post message must be specified.");
 
   let currentDate = new Date();
-  let time =
-    currentDate.getHours() +
-    ":" +
-    currentDate.getMinutes() +
-    ":" +
-    currentDate.getSeconds();
+  let time = currentDate.getHours() + ":" + currentDate.getMinutes();
 
   let options = { month: "short", day: "numeric", year: "numeric" };
   let organizedDate = currentDate.toLocaleDateString("en-US", options);
