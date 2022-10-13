@@ -23,7 +23,9 @@ exports.create_post = function (req, res, next) {
     currentDate.getMinutes() +
     ":" +
     currentDate.getSeconds();
-  let organizedDate = currentDate.toLocaleDateString();
+
+  let options = { month: "short", day: "numeric", year: "numeric" };
+  let organizedDate = currentDate.toLocaleDateString(options);
 
   const post = new Post({
     title: req.body.title,
