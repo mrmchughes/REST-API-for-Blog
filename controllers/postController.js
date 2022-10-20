@@ -3,6 +3,13 @@ const Post = require("../models/post");
 const Comment = require("../models/comment");
 const async = require("async");
 
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
+
 // Create a post
 exports.create_post = function (req, res, next) {
   body("title")
@@ -84,20 +91,11 @@ exports.update_post = function (req, res, next) {
     .escape()
     .withMessage("Post message must be specified.");
 
-  function addZero(i) {
-    if (i < 10) {
-      i = "0" + i;
-    }
-    return i;
-  }
-
-  let d = new Date();
-
-  let hours = addZero(d.getHours());
-  let minutes = addZero(d.getMinutes());
-  let seconds = addZero(d.getSeconds());
-
-  let time = hours + ":" + minutes + ":" + seconds;
+  const d = new Date();
+  let h = addZero(d.getHours());
+  let m = addZero(d.getMinutes());
+  let s = addZero(d.getSeconds());
+  let time = h + ":" + m + ":" + s;
 
   let options = { month: "short", day: "numeric", year: "numeric" };
   let organizedDate = d.toLocaleDateString("en-US", options);
