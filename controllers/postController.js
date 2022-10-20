@@ -91,15 +91,16 @@ exports.update_post = function (req, res, next) {
     return i;
   }
 
-  let currentDate = new Date();
+  let d = new Date();
 
-  let hours = addZero(currentDate.getHours());
-  let minutes = addZero(currentDate.getMinutes());
+  let hours = addZero(d.getHours());
+  let minutes = addZero(d.getMinutes());
+  let seconds = addZero(d.getSeconds());
 
-  let time = hours + ":" + minutes;
+  let time = hours + ":" + minutes + ":" + seconds;
 
   let options = { month: "short", day: "numeric", year: "numeric" };
-  let organizedDate = currentDate.toLocaleDateString("en-US", options);
+  let organizedDate = d.toLocaleDateString("en-US", options);
 
   Post.findByIdAndUpdate(
     req.params.postId,
