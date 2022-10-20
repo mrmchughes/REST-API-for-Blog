@@ -11,11 +11,14 @@ exports.create_comment = function (req, res) {
     .escape()
     .withMessage("Comment message must be specified.");
 
-  let currentDate = new Date();
-  let time = currentDate.getHours() + ":" + currentDate.getMinutes();
+  const d = new Date();
+  let h = addZero(d.getHours());
+  let m = addZero(d.getMinutes());
+  let s = addZero(d.getSeconds());
+  let time = h + ":" + m + ":" + s;
 
   let options = { month: "short", day: "numeric", year: "numeric" };
-  let organizedDate = currentDate.toLocaleDateString("en-US", options);
+  let organizedDate = d.toLocaleDateString("en-US", options);
 
   const comment = new Comment({
     post: req.params.postId,

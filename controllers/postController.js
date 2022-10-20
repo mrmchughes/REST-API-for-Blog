@@ -23,11 +23,14 @@ exports.create_post = function (req, res, next) {
     .escape()
     .withMessage("Post message must be specified.");
 
-  let currentDate = new Date();
-  let time = currentDate.getHours() + ":" + currentDate.getMinutes();
+  const d = new Date();
+  let h = addZero(d.getHours());
+  let m = addZero(d.getMinutes());
+  let s = addZero(d.getSeconds());
+  let time = h + ":" + m + ":" + s;
 
   let options = { month: "short", day: "numeric", year: "numeric" };
-  let organizedDate = currentDate.toLocaleDateString("en-US", options);
+  let organizedDate = d.toLocaleDateString("en-US", options);
 
   const post = new Post({
     title: req.body.title,
