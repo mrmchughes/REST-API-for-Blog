@@ -84,8 +84,16 @@ exports.update_post = function (req, res, next) {
     .escape()
     .withMessage("Post message must be specified.");
 
+  function addZero(i) {
+    if (i < 10) {
+      i = "0" + 1;
+    }
+    return i;
+  }
+
   let currentDate = new Date();
-  let time = currentDate.getHours() + ":" + currentDate.getMinutes();
+  let time =
+    addZero(currentDate.getHours()) + ":" + addZero(currentDate.getMinutes());
 
   let options = { month: "short", day: "numeric", year: "numeric" };
   let organizedDate = currentDate.toLocaleDateString("en-US", options);
