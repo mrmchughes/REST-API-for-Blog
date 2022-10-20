@@ -86,14 +86,17 @@ exports.update_post = function (req, res, next) {
 
   function addZero(i) {
     if (i < 10) {
-      i = "0" + 1;
+      i = "0" + i;
     }
     return i;
   }
 
   let currentDate = new Date();
-  let time =
-    addZero(currentDate.getHours()) + ":" + addZero(currentDate.getMinutes());
+
+  let hours = addZero(currentDate.getHours());
+  let minutes = addZero(currentDate.getMinutes());
+
+  let time = hours + ":" + minutes;
 
   let options = { month: "short", day: "numeric", year: "numeric" };
   let organizedDate = currentDate.toLocaleDateString("en-US", options);
