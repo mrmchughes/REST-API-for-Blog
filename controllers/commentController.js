@@ -87,13 +87,11 @@ exports.update_comment = function (req, res, next) {
     .escape()
     .withMessage("Comment message must be specified.");
 
-  let d = new Date();
-
-  let hours = addZero(d.getHours());
-  let minutes = addZero(d.getMinutes());
-  let seconds = addZero(d.getSeconds());
-
-  let time = hours + ":" + minutes + ":" + seconds;
+  const d = new Date();
+  let h = addZero(d.getHours());
+  let m = addZero(d.getMinutes());
+  let s = addZero(d.getSeconds());
+  let time = h + ":" + m + ":" + s;
 
   let options = { month: "short", day: "numeric", year: "numeric" };
   let organizedDate = d.toLocaleDateString("en-US", options);
