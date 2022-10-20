@@ -14,8 +14,7 @@ exports.create_comment = function (req, res) {
   const d = new Date();
   let h = addZero(d.getHours());
   let m = addZero(d.getMinutes());
-  let s = addZero(d.getSeconds());
-  let time = h + ":" + m + ":" + s;
+  let time = h + ":" + m;
 
   let options = { month: "short", day: "numeric", year: "numeric" };
   let organizedDate = d.toLocaleDateString("en-US", options);
@@ -93,8 +92,7 @@ exports.update_comment = function (req, res, next) {
   const d = new Date();
   let h = addZero(d.getHours());
   let m = addZero(d.getMinutes());
-  let s = addZero(d.getSeconds());
-  let time = h + ":" + m + ":" + s;
+  let time = h + ":" + m;
 
   let options = { month: "short", day: "numeric", year: "numeric" };
   let organizedDate = d.toLocaleDateString("en-US", options);
