@@ -3,6 +3,13 @@ const Comment = require("../models/comment");
 const Post = require("../models/post");
 const async = require("async");
 
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
+
 // Create a comment
 exports.create_comment = function (req, res) {
   body("message")
