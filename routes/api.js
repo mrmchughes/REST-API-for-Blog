@@ -60,7 +60,7 @@ router.put(
 );
 
 router.delete(
-  "/posts/:postId/comments/:commentId",
+  "/comments/:commentId",
   passport.authenticate("jwt", { session: false }),
   commentController.delete_comment
 );

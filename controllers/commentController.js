@@ -129,7 +129,5 @@ exports.delete_comment = function (req, res, next) {
     if (err) {
       return next(err);
     }
-
-    res.redirect(`/posts/${req.params.postId}`);
   });
 };
