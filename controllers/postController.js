@@ -106,14 +106,12 @@ exports.update_post = function (req, res, next) {
     {
       title: req.body.title,
       timestamp: organizedDate + " " + time,
-      message: req.body.message,
+      message: req.body.postMessage,
     },
     function (err) {
       if (err) {
         return next(err);
       }
-
-      res.redirect(`/posts/${req.params.postId}`);
     }
   );
 };
