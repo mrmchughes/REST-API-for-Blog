@@ -116,9 +116,7 @@ exports.update_comment = function (req, res, next) {
         return next(err);
       }
 
-      res.redirect(
-        `/posts/${req.params.postId}/comments/${req.params.commentId}`
-      );
+      res.redirect(`/posts/${req.params.postId}`);
     }
   );
 };

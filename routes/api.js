@@ -54,7 +54,7 @@ router.post(
 );
 
 router.put(
-  "/posts/:postId/comments/:commentId",
+  "/comments/:commentId",
   passport.authenticate("jwt", { session: false }),
   commentController.update_comment
 );
