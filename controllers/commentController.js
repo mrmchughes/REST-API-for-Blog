@@ -109,7 +109,7 @@ exports.update_comment = function (req, res, next) {
     {
       user: req.body.user,
       timestamp: organizedDate + " " + time,
-      message: req.body.commentMessage,
+      message: req.body.message,
     },
     function (err, comment) {
       if (err) {
