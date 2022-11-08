@@ -106,7 +106,7 @@ exports.update_post = function (req, res, next) {
     {
       title: req.body.title,
       timestamp: organizedDate + " " + time,
-      message: req.body.postMessage,
+      message: req.body.message,
     },
     function (err) {
       if (err) {
