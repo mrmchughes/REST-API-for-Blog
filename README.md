@@ -1,6 +1,8 @@
 # REST-API-for-Blog
 
-I developed this RESTful API for my Blog as part of The Odin Project's Fullstack [curriculum](https://www.theodinproject.com/lessons/nodejs-blog-api).
+I developed this RESTful API for my Blog as part of The Odin Project's Fullstack [curriculum](https://www.theodinproject.com/lessons/nodejs-blog-api). The API powers the Backend for both the User version of the Blog, as well as the CMS.
+
+[Live API](https://rest-api-for-blog.onrender.com/)
 
 [CMS Front End Repo](https://github.com/mrmchughes/CMS-Blog) 
 
